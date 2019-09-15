@@ -12,13 +12,13 @@ headers = {
 
 
 def check_price():
-    page = requests.get(URL, headers=headers)
+    page = requests.get(URL, headers=headers) #send request to the webpage
     soup = BeautifulSoup(page.content, 'html.parser')
 
     title = soup.find(id="productTitle").getText()
     price = soup.find(id="priceblock_ourprice").getText()
 
-    converted_price = price[1:10].replace(',', ',')
+    converted_price = price[1:10].replace(',', ',') #to convert the string price to float data type
     converted_price = ''.join([ch for ch in converted_price if ch in '0123456789.'])
     converted_price = float(converted_price)
 
@@ -38,21 +38,20 @@ def send_mail():
     server.ehlo()
     server.starttls()
     server.ehlo()
+    server.login('example@yourmail.com', 'password') # enter user name and password from which you wish to send an email
 
-    server.login('siddiquit541@gmail.com', 'kucgwkprwkdqbzyj')
-
-    subject = 'price fell down'
+    subject = 'price fell down' #enter subject of your mail
     body = 'Check the amazon link https://www.amazon.in/Apple-MacBook-Pro-9th-Generation-Intel-Core-i9/dp/B07SDPJ531/ref=sr_1_10?keywords=macbook+pro&qid=1568561733&sr=8-10 ' \
 
 
     msg = f"Subject: {subject}\n\n{body}"
 
     server.sendmail(
-        'siddiquit541gmail.com',
-        'antsinfinites@gmail.com',
+        'from@yourmail.com', # enter the mail from which you want to send email
+        'to@your.com', # enter the mail where you wish to recieve your email
         msg
     )
     print("Email Has Been Sent")
 
-    server.quit()
+    server.quit() # close server
 check_price()
